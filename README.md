@@ -8,7 +8,7 @@ To keep the focus strictly on core frontend mechanics and UI interactions, we ar
 
 **Recommended Core Stack:**
 * *HTML*
-* *CSS*
+* *CSS / Tailwind CSS*
 * *JavaScript*
 
 ## 🛠️ Functional Requirements
