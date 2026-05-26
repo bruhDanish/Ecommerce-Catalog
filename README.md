@@ -7,9 +7,9 @@ Welcome to the internal frontend development project! This project simulates a r
 To keep the focus strictly on core frontend mechanics and UI interactions, we are keeping the required stack lightweight. 
 
 **Recommended Core Stack:**
-* [cite_start]HTML[cite: 130]
-* [cite_start]CSS[cite: 130]
-* [cite_start]JavaScript[cite: 130]
+* *HTML*
+* *CSS*
+* *JavaScript*
 
 ## 🛠️ Functional Requirements
 
