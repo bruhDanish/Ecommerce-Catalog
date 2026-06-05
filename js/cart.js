@@ -6,28 +6,36 @@ constructor() {
   this.load();
 }
 
-getStorageKey() {
-  const user = window.auth && window.auth.getCurrentUser();
-  return user ? `ecommerce_cart_${user.username}` : 'ecommerce_cart_guest';
-}
-
-load() {
-  this.items = [];
-  try {
-    const saved = localStorage.getItem(this.getStorageKey());
-    if (saved) {
-      this.items = JSON.parse(saved);
-    }
-  } catch (e) {
-    console.error('Failed to load cart', e);
+  getStorageKey() {
+    const user = window.auth && window.auth.getCurrentUser();
+    return user ? `ecommerce_cart_${user.username}` : null;
   }
-  this.notify();
-}
 
-save() {
-  localStorage.setItem(this.getStorageKey(), JSON.stringify(this.items));
-  this.notify();
-}
+  load() {
+    this.items = [];
+    const key = this.getStorageKey();
+    if (!key) {
+      this.notify();
+      return;
+    }
+    try {
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        this.items = JSON.parse(saved);
+      }
+    } catch (e) {
+      console.error('Failed to load cart', e);
+    }
+    this.notify();
+  }
+
+  save() {
+    const key = this.getStorageKey();
+    if (key) {
+      localStorage.setItem(key, JSON.stringify(this.items));
+    }
+    this.notify();
+  }
 
 addItem(product) {
   if (window.auth && !window.auth.isLoggedIn()) {

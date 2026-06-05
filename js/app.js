@@ -1,7 +1,7 @@
 import { products } from './data.js?v=17';
 import { renderCatalog, renderHome, renderProductPage } from './catalog.js?v=14';
 import { getFilteredProducts, bindFilterEvents } from './filter.js?v=3';
-import { Cart, bindCartUI } from './cart.js?v=12';
+import { Cart, bindCartUI } from './cart.js?v=13';
 import { bindCheckout, initPayment } from './checkout.js?v=13';
 import { auth } from './auth.js';
 
@@ -17,13 +17,18 @@ class Wishlist {
 
   getStorageKey() {
     const user = window.auth && window.auth.getCurrentUser();
-    return user ? `ecommerce_wishlist_${user.username}` : 'ecommerce_wishlist_guest';
+    return user ? `ecommerce_wishlist_${user.username}` : null;
   }
 
   load() {
     this.items = new Set();
+    const key = this.getStorageKey();
+    if (!key) {
+      this.notify();
+      return;
+    }
     try {
-      const saved = localStorage.getItem(this.getStorageKey());
+      const saved = localStorage.getItem(key);
       if (saved) {
         this.items = new Set(JSON.parse(saved));
       }
@@ -34,7 +39,10 @@ class Wishlist {
   }
 
   save() {
-    localStorage.setItem(this.getStorageKey(), JSON.stringify(Array.from(this.items)));
+    const key = this.getStorageKey();
+    if (key) {
+      localStorage.setItem(key, JSON.stringify(Array.from(this.items)));
+    }
     this.notify();
   }
 
